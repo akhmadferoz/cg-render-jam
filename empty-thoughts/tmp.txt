@@ -1,38 +1,4 @@
-<!DOCTYPE html>
-<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
-<meta content="utf-8" http-equiv="encoding" />
-<html>
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-
-    <script
-      type="text/javascript"
-      src="https://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SEVENTH_EDITION/CODE/Common/webgl-utils.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SEVENTH_EDITION/CODE/Common/initShaders.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SEVENTH_EDITION/CODE/Common/MV.js"
-    ></script>
-    <script type="text/javascript" src="index.js"></script>
-    <script type="text/javascript" src="constants.js"></script>
-
-    <title>{title}</title>
-
-    <script id="vertex-shader" type="x-shader/x-vertex">
+<script id="vertex-shader" type="x-shader/x-vertex">
       #version 300 es
 
       in vec4 vPosition;  // attribute
@@ -113,30 +79,3 @@
       	fragColor = fColor;
       }
     </script>
-  </head>
-
-  <body>
-    <main id="root" class="container py-5">
-      <div class="row">
-        <div class="mb-5">
-          <h3>CS 440 Render Jam</h3>
-        </div>
-      </div>
-
-      <div id="render" class="row">
-        <div class="d-flex flex-col justify-content-center align-items-center">
-          <canvas id="gl-canvas" width="400" height="400">
-            Oops ... your browser doesn't support the HTML5 canvas element
-          </canvas>
-        </div>
-      </div>
-    </main>
-
-    <!-- Bootstrap JavaScript Bundle with Popper -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-    ></script>
-  </body>
-</html>
