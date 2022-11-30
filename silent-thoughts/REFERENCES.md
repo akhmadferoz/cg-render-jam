@@ -1,8 +1,11 @@
 # References
 
-## Libraries
+## Libraries and Documentation
 
 - [GL Matrix Library](https://glmatrix.net/docs/)
+- [WebGL Fundamentals](https://webglfundamentals.org/)
+- [WebGL - Drawing Multiple Things](https://webglfundamentals.org/webgl/lessons/webgl-drawing-multiple-things.html)
+- [WebGl adding multiple objects to one canvas](https://stackoverflow.com/questions/28614956/webgl-adding-multiple-objects-to-one-canvas)
 
 ## Mathematical Concepts and Equations
 
@@ -14,3 +17,4 @@
 - [The Sound Of Silence Cover by Disturbed](https://www.youtube.com/watch?v=u9Dg-g7t2l4)
 - [Death Star](https://starwars.fandom.com/wiki/Death_Star)
 - [Death Star 2](https://starwars.fandom.com/wiki/Death_Star_II/Legends)
+- [Destruction of Alderaan](https://starwars.fandom.com/wiki/Destruction_of_Alderaan)

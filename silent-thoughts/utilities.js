@@ -103,7 +103,7 @@ const shapes = {
   },
 };
 
-function generatePointCloud(n) {
+function generatePointCloud(n, shape) {
   const points = [];
 
   // const maxShapes = Object.keys(shapes).length;
@@ -118,10 +118,7 @@ function generatePointCloud(n) {
     ];
 
     // points.push(...vec3.normalize(vec3.create(), coordinate));
-    points.push(...shapes.circularHyperboloid(...coordinate));
-    // points.push(...shapes.sphereShell2(...coordinate)); //////
-    // points.push(...shapes.boxShell(...coordinate));
-    // points.push(...shape(...coordinate));
+    points.push(...shape(...coordinate));
   }
 
   return points;

@@ -54,36 +54,54 @@ window.onload = function () {
   ];
 
   // F, L, B, R
-  // const vertexData = [0, 1, 0, 1, -1, 0, -1, -1, 0];
-  // const vertexData = [...cube];
+  // const starFieldVertexData = [0, 1, 0, 1, -1, 0, -1, -1, 0];
+  // const starFieldVertexData = [...cube];
   const maxPoints = Math.random() * (1e4 - 1e3) + 1e3;
-  const vertexData = generatePointCloud(1e4);
+  const starFieldVertexData = generatePointCloud(
+    1e4,
+    shapes.circularHyperboloid
+  );
+  starFieldVertexData.push(...[0, 0, 0]);
 
-  // const colorData = [
-  //   1, 0, 0, // V1 color
-  //   0, 1, 0, // V2 color
-  //   0, 0, 1, // V3 color
-  // ];
-  const colorData = [];
+  const sphereVertexData = generatePointCloud(1e4, shapes.sphereShell2);
 
-  // for (let face = 0; face < 6; face++) {
-  //   const faceColor = randomizeColor();
-  //   for (let vertex = 0; vertex < 6; vertex++) {
-  //     colorData.push(...faceColor);
-  //   }
-  // }
+  const starFieldColorData = [];
+  const sphereColorData = [];
 
-  for (let i = 0; i < vertexData.length; i += 3) {
-    colorData.push(...randomizeStarColor());
+  for (let i = 0; i < starFieldVertexData.length; i += 3) {
+    starFieldColorData.push(...randomizeStarColor());
   }
 
-  const positionBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexData), gl.STATIC_DRAW);
+  starFieldVertexData.push(...[0, 0, 0]);
+  starFieldColorData.push(...getColor(255, 255, 255));
+
+  for (let i = 0; i < sphereVertexData.length; i += 3) {
+    sphereColorData.push(...[1, 1, 1]);
+  }
+
+  const starFieldPositionBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, starFieldPositionBuffer);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array(starFieldVertexData),
+    gl.STATIC_DRAW
+  );
+
+  const spherePositionBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, spherePositionBuffer);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array(sphereVertexData),
+    gl.STATIC_DRAW
+  );
 
   const colorBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colorData), gl.STATIC_DRAW);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array(starFieldColorData),
+    gl.STATIC_DRAW
+  );
 
   /*
    * MARK:- Vertex Shader
@@ -94,6 +112,7 @@ window.onload = function () {
     precision mediump float;
 
     attribute vec3 position;
+    attribute vec3 spherePosition;
     attribute vec3 color;
 
     varying vec3 vColor;
@@ -102,7 +121,6 @@ window.onload = function () {
 
     void main() {
       vColor = color;
-      // vColor = vec3(position.xy, 1.0);
       gl_Position = modelMatrix * vec4(position, 1);
     }
   `;
@@ -135,7 +153,15 @@ window.onload = function () {
 
   const positionLocation = gl.getAttribLocation(program, "position");
   gl.enableVertexAttribArray(positionLocation);
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  gl.bindBuffer(gl.ARRAY_BUFFER, starFieldPositionBuffer);
+  gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
+
+  const spherePositionLocation = gl.getAttribLocation(
+    program,
+    "spherePosition"
+  );
+  gl.enableVertexAttribArray(positionLocation);
+  gl.bindBuffer(gl.ARRAY_BUFFER, starFieldPositionBuffer);
   gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
 
   const colorLocation = gl.getAttribLocation(program, "color");
@@ -157,27 +183,31 @@ window.onload = function () {
   mat4.perspective(
     projectionMatrix,
     (90 * Math.PI) / 180, // Vertical FOV
-    canvas.width / canvas.height, // aspect ratio
-    1e-4, // near
-    1e4 // far
+    canvas.width / canvas.height, // Aspect Ratio
+    1e-4, // Near
+    1e4 // Far
   );
 
   const finalMatrix = mat4.create();
 
-  mat4.translate(modelMatrix, modelMatrix, [0.125, 0.125, -2]);
+  mat4.translate(modelMatrix, modelMatrix, [0, 0, -2]);
+  // mat4.translate(modelMatrix, modelMatrix, [-0.0625, 0.0625, -2]);
+  // mat4.translate(modelMatrix, modelMatrix, [0.125, 0.125, -2]);
   // mat4.scale(modelMatrix, modelMatrix, [0.25, 0.25, 0.25]);
 
   function animate() {
     // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     requestAnimationFrame(animate);
 
-    mat4.rotateZ(modelMatrix, modelMatrix, Math.PI / 2 / (360 * 0.5));
-    mat4.rotateX(modelMatrix, modelMatrix, -Math.PI / 2 / (360 * 3));
+    mat4.rotateZ(modelMatrix, modelMatrix, Math.PI / 2 / (360 * 4));
+    mat4.rotateX(modelMatrix, modelMatrix, -Math.PI / 2 / (360 * 16));
+    // mat4.rotateY(modelMatrix, modelMatrix, -Math.PI / 2 / (360 * 0.1));
 
     mat4.multiply(finalMatrix, projectionMatrix, modelMatrix);
 
     gl.uniformMatrix4fv(uniformLocations.modelMatrix, false, finalMatrix);
-    gl.drawArrays(gl.POINT, 0, vertexData.length / 3);
+    gl.drawArrays(gl.POINT, 0, starFieldVertexData.length / 3);
+    // gl.drawArrays(gl.POINT, 0, sphereVertexData.length / 3);
   }
 
   animate();
