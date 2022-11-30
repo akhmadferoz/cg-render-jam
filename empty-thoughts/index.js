@@ -55,7 +55,10 @@ window.onload = function () {
 
   // F, L, B, R
   // const vertexData = [0, 1, 0, 1, -1, 0, -1, -1, 0];
-  const vertexData = [...cube];
+  // const vertexData = [...cube];
+  const maxPoints = Math.random() * (1e4 - 1e3) + 1e3;
+  const vertexData = generatePointCloud(1e4);
+
   // const colorData = [
   //   1, 0, 0, // V1 color
   //   0, 1, 0, // V2 color
@@ -63,11 +66,15 @@ window.onload = function () {
   // ];
   const colorData = [];
 
-  for (let face = 0; face < 6; face++) {
-    const faceColor = randomizeColor();
-    for (let vertex = 0; vertex < 6; vertex++) {
-      colorData.push(...faceColor);
-    }
+  // for (let face = 0; face < 6; face++) {
+  //   const faceColor = randomizeColor();
+  //   for (let vertex = 0; vertex < 6; vertex++) {
+  //     colorData.push(...faceColor);
+  //   }
+  // }
+
+  for (let i = 0; i < vertexData.length; i += 3) {
+    colorData.push(...randomizeStarColor());
   }
 
   const positionBuffer = gl.createBuffer();
@@ -95,6 +102,7 @@ window.onload = function () {
 
     void main() {
       vColor = color;
+      // vColor = vec3(position.xy, 1.0);
       gl_Position = modelMatrix * vec4(position, 1);
     }
   `;
@@ -163,13 +171,13 @@ window.onload = function () {
     // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     requestAnimationFrame(animate);
 
-    mat4.rotateZ(modelMatrix, modelMatrix, Math.PI / 2 / 50);
-    mat4.rotateX(modelMatrix, modelMatrix, -Math.PI / 2 / 50);
+    mat4.rotateZ(modelMatrix, modelMatrix, Math.PI / 2 / (360 * 0.5));
+    mat4.rotateX(modelMatrix, modelMatrix, -Math.PI / 2 / (360 * 3));
 
     mat4.multiply(finalMatrix, projectionMatrix, modelMatrix);
 
     gl.uniformMatrix4fv(uniformLocations.modelMatrix, false, finalMatrix);
-    gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
+    gl.drawArrays(gl.POINT, 0, vertexData.length / 3);
   }
 
   animate();
