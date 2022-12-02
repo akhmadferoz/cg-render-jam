@@ -24,7 +24,6 @@ function generateRandomPoint() {
 
 const shapes = {
   circularHyperboloid(...position) {
-    // maybe??
     let [_, a, b] = position.map((n) => n + 0.5);
     a *= 2 * Math.PI; // 0 < a < 2PI
     b *= 2 * Math.PI; // 0 < b < 2PI

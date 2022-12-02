@@ -199,14 +199,16 @@ window.onload = function () {
     // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     requestAnimationFrame(animate);
 
-    mat4.rotateZ(modelMatrix, modelMatrix, Math.PI / 2 / (360 * 4));
-    mat4.rotateX(modelMatrix, modelMatrix, -Math.PI / 2 / (360 * 16));
-    // mat4.rotateY(modelMatrix, modelMatrix, -Math.PI / 2 / (360 * 0.1));
+    mat4.rotateZ(modelMatrix, modelMatrix, Math.PI / 2 / (360 * 1));
+    mat4.rotateX(modelMatrix, modelMatrix, -Math.PI / 2 / (360 * 4));
+    // mat4.rotateY(modelMatrix, modelMatrix, -Math.PI / 2 / (360 * 1));
 
     mat4.multiply(finalMatrix, projectionMatrix, modelMatrix);
 
     gl.uniformMatrix4fv(uniformLocations.modelMatrix, false, finalMatrix);
-    gl.drawArrays(gl.POINT, 0, starFieldVertexData.length / 3);
+    // gl.drawArrays(gl.TRIANGLES, 0, starFieldVertexData.length / 3);
+    gl.drawArrays(gl.POINTS, 0, starFieldVertexData.length / 4);
+    // gl.drawArrays(gl.LINES, 0, starFieldVertexData.length / 3);
     // gl.drawArrays(gl.POINT, 0, sphereVertexData.length / 3);
   }
 
