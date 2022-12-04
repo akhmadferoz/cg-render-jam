@@ -56,14 +56,14 @@ window.onload = function () {
   // F, L, B, R
   // const starFieldVertexData = [0, 1, 0, 1, -1, 0, -1, -1, 0];
   // const starFieldVertexData = [...cube];
-  const maxPoints = Math.random() * (1e4 - 1e3) + 1e3;
   const starFieldVertexData = generatePointCloud(
     1e4,
     shapes.circularHyperboloid
   );
-  starFieldVertexData.push(...[0, 0, 0]);
 
-  const sphereVertexData = generatePointCloud(1e4, shapes.sphereShell2);
+  // starFieldVertexData.push(...[0, 0, 0]);
+
+  const sphereVertexData = generatePointCloud(1e4, shapes.sphereShell);
 
   const starFieldColorData = [];
   const sphereColorData = [];
@@ -72,12 +72,16 @@ window.onload = function () {
     starFieldColorData.push(...randomizeStarColor());
   }
 
-  starFieldVertexData.push(...[0, 0, 0]);
-  starFieldColorData.push(...getColor(255, 255, 255));
+  // starFieldVertexData.push(...[0, 0, 0]);
+  // starFieldColorData.push(...getColor(255, 255, 255));
 
   for (let i = 0; i < sphereVertexData.length; i += 3) {
-    sphereColorData.push(...[1, 1, 1]);
+    // sphereColorData.push(...randomizeStarColor());
+    sphereColorData.push(...randomizeColor());
   }
+
+  starFieldVertexData.push(...sphereVertexData);
+  starFieldColorData.push(...sphereColorData);
 
   const starFieldPositionBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, starFieldPositionBuffer);
@@ -193,26 +197,46 @@ window.onload = function () {
   mat4.translate(modelMatrix, modelMatrix, [0, 0, -2]);
   // mat4.translate(modelMatrix, modelMatrix, [-0.0625, 0.0625, -2]);
   // mat4.translate(modelMatrix, modelMatrix, [0.125, 0.125, -2]);
-  // mat4.scale(modelMatrix, modelMatrix, [0.25, 0.25, 0.25]);
+  // mat4.scale(modelMatrix, modelMatrix, [1.5, 1.5, 1.5]);
+
+  let scale = 1;
+
+  let scaleFactor = 1.0005;
+
+  const reloatTimer = 60000;
+
+  setInterval(() => {
+    scale *= -1;
+    const scaleValue = 0.0015 * scale;
+    scaleFactor += scaleValue;
+  }, reloatTimer);
 
   function animate() {
     // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     requestAnimationFrame(animate);
 
-    mat4.rotateZ(modelMatrix, modelMatrix, Math.PI / 2 / (360 * 1));
-    mat4.rotateX(modelMatrix, modelMatrix, -Math.PI / 2 / (360 * 4));
-    // mat4.rotateY(modelMatrix, modelMatrix, -Math.PI / 2 / (360 * 1));
+    mat4.rotateZ(modelMatrix, modelMatrix, Math.PI / 2 / (360 * 4));
+    mat4.rotateX(modelMatrix, modelMatrix, -Math.PI / 2 / (360 * 12));
+    // mat4.rotateY(modelMatrix, modelMatrix, -Math.PI / 2 / (360 * 2));
 
     mat4.multiply(finalMatrix, projectionMatrix, modelMatrix);
 
+    mat4.scale(modelMatrix, modelMatrix, [
+      scaleFactor,
+      scaleFactor,
+      scaleFactor,
+    ]);
+
     gl.uniformMatrix4fv(uniformLocations.modelMatrix, false, finalMatrix);
-    // gl.drawArrays(gl.TRIANGLES, 0, starFieldVertexData.length / 3);
-    gl.drawArrays(gl.POINTS, 0, starFieldVertexData.length / 4);
-    // gl.drawArrays(gl.LINES, 0, starFieldVertexData.length / 3);
-    // gl.drawArrays(gl.POINT, 0, sphereVertexData.length / 3);
+    gl.drawArrays(gl.POINTS, 0, starFieldVertexData.length / 3);
+    // gl.drawArrays(gl.TRIANGLES, 0, sphereVertexData.length / 3);
   }
 
   animate();
+
+  // setTimeout(() => {
+  //   window.location.reload();
+  // }, reloatTimer);
 
   // gl.uniformMatrix4fv(uniformLocations.modelMatrix, false, modelMatrix);
 

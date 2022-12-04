@@ -1,0 +1,48 @@
+TITLE:      Silent Thoughts in The Dark
+Name:       Ahmad Feroz, Sandesh Kumar and Hammad Maqdoom
+TOPIC:      Computer Graphics Render Jam — HU Fall 2022
+COPYRIGHT:  I SUBMIT TO THE STANDARD RENDER JAM COMPETITION COPYRIGHT
+PNG FILE:   silent-thoughts.png
+ZIP FILE:   silent-thoughts.zip
+
+TOOLS USED:
+
+            WebGl 2.0
+            GL Matrix Library
+
+Render Time:
+
+            A few seconds
+
+ANIMATION DURATION:
+
+            Reversed every 60 seconds
+
+IMAGE DESCRIPTION:
+
+            A planet not so different from Alderaan is obliterated by the Death Star I's superlaser beam. The 
+            aftermath is depicted in this image. The image shows a dark, desolate state, with the remains of 
+            the planet. The hyperbolic "disk-like" particles depict the destroyed space station that would have
+            surrounded the planet.
+
+            As time passes (every 60s) the render zooms and out of the remains that have since turned into stars
+            and debris that may be a source of concern for passing ships to avoid.
+
+DESCRIPTION OF HOW THIS IMAGE WAS CREATED: 
+
+            I feel that the inspiration behind the image is also important. I was stiiing on my laptop with VS Code 
+            open and hoping for a good idea to come to me. I was listening to The Sound of Silence cover by Disturbed,
+            when it occured to me that I could model a dark scene with a planet in the background.
+
+            Now, I already had an image in my mind, so got to work immediately. I started off by trying once again to 
+            segregate my JavaScript from the HTML and create a sort of class structure.
+
+            From here, the first step was to model a dark, starfilled sky. I used a pointcloud method for this where I 
+            simply generated a number of coordinates and then rendered them on screen using the gl.POINTS method.
+
+            Now it was a little tricky getting the dispersion of the stars to look right — especially since I was still 
+            only playing around in the x-y plane and hadn't yet seen the render in 3D. Once I added a rotation, however, 
+            the scene brought to mind the destruction of Alderaan in Star Wars: The Empire Strikes Back.
+
+            I thought about adding a light source to simulate the Star System's sun, but felt that it would be a little 
+            redundant as the stars were already bright enough from the heat of the explosion.

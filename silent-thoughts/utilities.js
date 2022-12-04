@@ -14,6 +14,14 @@ function randomizeStarColor() {
   ];
 }
 
+function getExplosionColors() {
+  return [
+    Math.random() * 0.81 + 0.81,
+    Math.random() * 0.09 + 0.09,
+    Math.random() * 0.13 + 0.13,
+  ];
+}
+
 function repeat(n, pattern) {
   return [...Array(n)].reduce((sum) => sum.concat(pattern), []);
 }
@@ -25,40 +33,12 @@ function generateRandomPoint() {
 const shapes = {
   circularHyperboloid(...position) {
     let [_, a, b] = position.map((n) => n + 0.5);
-    a *= 2 * Math.PI; // 0 < a < 2PI
-    b *= 2 * Math.PI; // 0 < b < 2PI
+    a *= 2 * Math.PI;
+    b *= 2 * Math.PI;
 
     let x = Math.cos(a) / Math.cos(b);
     let y = Math.sin(a) / Math.cos(b);
     let z = Math.sin(b);
-
-    return [x, y, z];
-  },
-
-  cylinderShell(...position) {
-    const R = 1;
-
-    let [r, a, _] = position.map((n) => n + 0.5);
-    r *= R;
-    a *= 2 * Math.PI; // 0 < a < 2PI
-
-    let x = R * Math.cos(a);
-    let y = R * Math.sin(a);
-    let z = position[2];
-
-    return [x, y, z];
-  },
-
-  cylinderShellInfinte(...position) {
-    const R = 1;
-
-    let [_, a, b] = position.map((n) => n + 0.5);
-    a *= 2 * Math.PI; // 0 < a < 2PI
-    b *= 2 * Math.PI; // 0 < b < 2PI
-
-    let x = R * Math.cos(a);
-    let y = R * Math.sin(a);
-    let z = Math.tan(b);
 
     return [x, y, z];
   },
